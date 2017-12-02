@@ -33,8 +33,8 @@ depth = inputArray[3]/160
 
 def fractal(step, rule, angle, depth, t):
    if depth < 0:
-      odd = lambda: fractal(step, "even", angle, depth, t)
-      even = lambda: fractal(step, "odd", angle, depth, t)
+      odd = lambda: fractal(step, "even", angle, depth-1, t)
+      even = lambda: fractal(step, "odd", angle, depth-1, t)
       left = lambda: t.left(angle)
       right = lambda: t.right(angle)
       forward = lambda: t.forward(step)
@@ -47,5 +47,5 @@ def fractal(step, rule, angle, depth, t):
 myTurtle = Turtle()
 myTurtle.speed(0)
 
-fractal(step, parity, angle, depth, myTurtle)
+fractal(step, parity, angle, 10, myTurtle)
 done()
