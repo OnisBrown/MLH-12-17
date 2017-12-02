@@ -16,16 +16,25 @@ print(signiture)
 inputInterval = 8
 inputArray = [int(signiture[i:i+inputInterval],16) for i in range(0, len(signiture), inputInterval)]
 parity = ""
+step = inputArray[0]/(100*raw.size)
 
-if inputArray[2]%2 == 0:
+if inputArray[1]%2 == 0:
    parity = "even"
 else:
    parity = "odd"
 
-def hilbert2(step, rule, angle, depth, t):
-   if depth > 0:
-      odd = lambda: hilbert2(step, "even", angle, depth - 1, t)
-      even = lambda: hilbert2(step, "odd", angle, depth - 1, t)
+if inputArray[2]<90:
+   angle = inputArray[2]
+else:
+   angle = inputArray[2]%90
+   
+depth = inputArray[3]/160
+
+
+def fractal(step, rule, angle, depth, t):
+   if depth < 0:
+      odd = lambda: fractal(step, "even", angle, depth, t)
+      even = lambda: fractal(step, "odd", angle, depth, t)
       left = lambda: t.left(angle)
       right = lambda: t.right(angle)
       forward = lambda: t.forward(step)
@@ -33,9 +42,10 @@ def hilbert2(step, rule, angle, depth, t):
         left(); even(); forward(); right(); even(); forward(); even(); right(); forward(); even(); left();
       if rule == "odd":
         right(); odd(); forward(); left(); odd(); forward(); odd(); left(); forward(); odd(); right();
+
         
 myTurtle = Turtle()
 myTurtle.speed(0)
 
-hilbert2(inputArray[1]/(10*raw.size), parity, 90, 5, myTurtle)
+fractal(step, parity, angle, depth, myTurtle)
 done()
