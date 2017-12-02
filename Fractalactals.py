@@ -19,8 +19,8 @@ signitureI = int(signiture, 16)
 
 def hilbert2(step, rule, angle, depth, t):
    if depth > 0:
-      a = lambda: hilbert2(step, "a", angle, depth - 1, t)
-      b = lambda: hilbert2(step, "b", angle, depth - 1, t)
+      odd = lambda: hilbert2(step, "even", angle, depth - 1, t)
+      even = lambda: hilbert2(step, "odd", angle, depth - 1, t)
       left = lambda: t.left(angle)
       right = lambda: t.right(angle)
       forward = lambda: t.forward(step)
@@ -31,6 +31,7 @@ def hilbert2(step, rule, angle, depth, t):
         
 myTurtle = Turtle()
 myTurtle.speed(0)
+
 hilbert2(5, "a", 90, 5, myTurtle)
 
 done()
