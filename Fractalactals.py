@@ -32,7 +32,7 @@ depth = inputArray[3]/160
 
 
 def fractal(step, rule, angle, depth, t):
-   if depth < 0:
+   if depth > 0:
       odd = lambda: fractal(step, "even", angle, depth-1, t)
       even = lambda: fractal(step, "odd", angle, depth-1, t)
       left = lambda: t.left(angle)
