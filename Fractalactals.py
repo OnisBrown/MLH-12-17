@@ -3,7 +3,7 @@ from turtle import *
 from numpy import *
 import hashlib
 #SET THE PATH OF CODEC
-AudioSegment.converter = "C:\\ffmpeg-20171130-83ecdc9-win32-static\\bin\\ffmpeg.exe"
+AudioSegment.converter = "ffmpeg-20171130-83ecdc9-win32-static/bin/ffmpeg.exe"
 
 song = AudioSegment.from_mp3("Sources/Stevie Nicks.mp3")
 print(song.duration_seconds)
@@ -13,9 +13,14 @@ print(raw.size)
 rawString = raw.tostring()
 signiture = (hashlib.md5(rawString)).hexdigest()
 print(signiture)
-signitureI = int(signiture, 16)
+inputInterval = 8
+inputArray = [int(signiture[i:i+inputInterval],16) for i in range(0, len(signiture), inputInterval)]
+parity = ""
 
-
+if inputArray[2]%2 == 0:
+   parity = "even"
+else:
+   parity = "odd"
 
 def hilbert2(step, rule, angle, depth, t):
    if depth > 0:
@@ -24,14 +29,13 @@ def hilbert2(step, rule, angle, depth, t):
       left = lambda: t.left(angle)
       right = lambda: t.right(angle)
       forward = lambda: t.forward(step)
-      if rule == "a":
-        left(); b(); forward(); right(); a(); forward(); a(); right(); forward(); b(); left();
-      if rule == "b":
-        right(); a(); forward(); left(); b(); forward(); b(); left(); forward(); a(); right();
+      if rule == "even":
+        left(); even(); forward(); right(); even(); forward(); even(); right(); forward(); even(); left();
+      if rule == "odd":
+        right(); odd(); forward(); left(); odd(); forward(); odd(); left(); forward(); odd(); right();
         
 myTurtle = Turtle()
 myTurtle.speed(0)
 
-hilbert2(5, "a", 90, 5, myTurtle)
-
+hilbert2(inputArray[1]/(10*raw.size), parity, 90, 5, myTurtle)
 done()
